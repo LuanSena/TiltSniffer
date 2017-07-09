@@ -11,18 +11,18 @@ def main():
         get_participant_info(participant)
 
 
-def get_participant_info(participant): #TODO make this async
+def get_participant_info(participant):  # TODO make this async
     opgg = Opgg()
     champion = participant.champion
     summoner_name = participant.summoner_name
     summoner_id = participant.summoner.id
     team = participant.side.name
     opgg.refresh_summoner_info(summoner_id)
-    summoner_winrate = opgg.get_summoner_recent_winrate(summoner_name)
+    opgg_request = opgg.get_summoner_request_result(summoner_name)
+    summoner_winrate = opgg.get_summoner_recent_winrate(opgg_request)
 
     print("{name} playing with {champion} on team:{team}. Actual Winrate:{winrate}".format(
-        name=summoner_name, champion=champion, team=team, winrate=summoner_winrate
-    ))
+        name=summoner_name, champion=champion, team=team, winrate=summoner_winrate))
 
 
 if __name__ == '__main__':
