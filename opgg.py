@@ -12,10 +12,12 @@ class Opgg(object):
         self.url_api_op_gg_br = "https://br.op.gg/summoner/ajax/renew.json/"
         self.url_op_gg_br = "https://br.op.gg/summoner/userName={summoner_name}"
 
-    def get_summoner_recent_winrate(self, name):
+    def get_summoner_request_result(self, name):
         """Return an INT with player winrate"""
-        result = requests.get(self.url_op_gg_br.format(summoner_name=name))
+        return requests.get(self.url_op_gg_br.format(summoner_name=name))
 
+    def get_summoner_recent_winrate(self, result):
+        """Return an INT with player winrate"""
         data = result.text
         refreshed_soup = BeautifulSoup(data, 'html.parser')
         content = refreshed_soup.findAll("div", {"class": "Text"})
@@ -25,9 +27,8 @@ class Opgg(object):
                 return int(link.text[0:len(link.text) - 1])
         return -1
 
-    def get_summoner_id(self, name):
+    def get_summoner_id(self, result):
         """Return player summoner ID from https://br.op.gg"""
-        result = requests.get(self.url_op_gg_br.format(summoner_name=name))
 
         data = result.text
         soup = BeautifulSoup(data, 'html.parser')
