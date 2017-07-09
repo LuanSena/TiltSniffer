@@ -11,7 +11,7 @@ def main():
         get_participant_info(participant)
 
 
-def get_participant_info(participant) #TODO make this async
+def get_participant_info(participant): #TODO make this async
     opgg = Opgg()
     champion = participant.champion
     summoner_name = participant.summoner_name
