@@ -1,3 +1,5 @@
+from multiprocessing import Process
+
 from opgg import Opgg
 from riotapi import RiotApi
 
@@ -8,10 +10,12 @@ def main():
     active_match = riot.get_summoner_active_match(name)
 
     for participant in active_match.participants:
-        get_participant_info(participant)
+        p = Process(target=get_participant_info, args=(participant,))
+        p.start()
+    p.join()
 
 
-def get_participant_info(participant):  # TODO make this async
+def get_participant_info(participant):
     opgg = Opgg()
     champion = participant.champion
     summoner_name = participant.summoner_name
